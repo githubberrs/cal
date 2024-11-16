@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancer Risk Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cancer Risk Calculator</h1>
+        <form id="calculatorForm">
+            <div class="question">
+                <label>Age:</label>
+                <input type="number" id="age" min="0" max="120" required>
+            </div>
+            <div class="question">
+                <label>Do you smoke?</label>
+                <select id="smoke">
+                    <option value="0">Never</option>
+                    <option value="2">Former</option>
+                    <option value="5">Current</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>How often do you drink alcohol?</label>
+                <select id="alcohol">
+                    <option value="0">Never</option>
+                    <option value="2">Occasionally</option>
+                    <option value="4">Frequently</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Physical Activity Level:</label>
+                <select id="activity">
+                    <option value="0">Active</option>
+                    <option value="2">Moderate</option>
+                    <option value="4">Sedentary</option>
+                </select>
+            </div>
+            <div class="question">
+                <label>Family History of Cancer:</label>
+                <select id="familyHistory">
+                    <option value="0">No</option>
+                    <option value="3">Yes</option>
+                </select>
+            </div>
+            <button type="button" onclick="calculateRisk()">Calculate Risk</button>
+        </form>
+        <div id="result" class="result" style="display: none;"></div>
+        <h2>Scan the QR Code Below:</h2>
+        <img src="https://via.placeholder.com/150?text=QR+Code" alt="QR Code" id="qrCode">
+    </div>
+    <script>
+        function calculateRisk() {
+            const age = parseInt(document.getElementById('age').value);
+            const smoke = parseInt(document.getElementById('smoke').value);
+            const alcohol = parseInt(document.getElementById('alcohol').value);
+            const activity = parseInt(document.getElementById('activity').value);
+            const familyHistory = parseInt(document.getElementById('familyHistory').value);
+
+            if (!age) {
+                alert("Please enter your age.");
+                return;
+            }
+
+            let score = smoke + alcohol + activity + familyHistory;
+
+            if (age >= 50) score += 3; // Higher risk for older age
+
+            let riskLevel = "Low Risk";
+            if (score >= 5 && score < 10) {
+                riskLevel = "Moderate Risk";
+            } else if (score >= 10) {
+                riskLevel = "High Risk";
+            }
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `<strong>Your Risk Level:</strong> ${riskLevel}<br> 
+            <small>This is a general guideline. Consult a healthcare professional for personalized advice.</small>`;
+        }
+    </script>
+</body>
+</html>
